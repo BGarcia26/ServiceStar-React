@@ -11,25 +11,32 @@ function FormularioContacto() {
   // Estado con los valores escritos y los errores de validación
   const [datos, setDatos] = useState<DatosContacto>(valoresIniciales);
   const [errores, setErrores] = useState<ErroresContacto>({});
+  const [enviado, setEnviado] = useState(false);
 
   const manejarCambio = (evento: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evento.target;
     setDatos({ ...datos, [name]: value });
+    setEnviado(false);
   };
 
   const manejarEnvio = (evento: FormEvent<HTMLFormElement>) => {
+    evento.preventDefault();
     const nuevosErrores = validarContacto(datos);
     setErrores(nuevosErrores);
-    // Si hay errores se bloquea el envío a FormSubmit
-    if (Object.keys(nuevosErrores).length > 0) {
-      evento.preventDefault();
+    // Solo si no hay errores se confirma el envío y se limpia el formulario
+    if (Object.keys(nuevosErrores).length === 0) {
+      setEnviado(true);
+      setDatos(valoresIniciales);
     }
   };
 
   return (
-    <form action="https://formsubmit.co/mgarcia@itdata.cl" method="POST" noValidate onSubmit={manejarEnvio}>
-      <input type="hidden" name="_subject" value="Nuevo requerimiento web ITDATA" />
-      <input type="hidden" name="_captcha" value="false" />
+    <form noValidate onSubmit={manejarEnvio}>
+      {enviado && (
+        <div className="alert alert-success" role="alert">
+          ¡Gracias! Recibimos tu requerimiento y te contactaremos pronto.
+        </div>
+      )}
 
       <CampoFormulario id="nombre" etiqueta="Nombre o Empresa:" valor={datos.nombre} onChange={manejarCambio}
         placeholder="Ej: Juan Pérez - Empresa S.A." autoComplete="name" error={errores.nombre} />

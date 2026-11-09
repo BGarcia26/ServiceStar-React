@@ -8,7 +8,7 @@ export const productos: Producto[] = [
       'Potencia tu productividad con un monitor IPS de 27 pulgadas, conexión USB-C con Power Delivery y tasa de refresco de 100Hz, ideal para puestos de trabajo corporativos.',
     categoria: 'Monitores',
     marca: 'Dell',
-    etiqueta: 'Soporte ITDATA',
+    etiqueta: 'Soporte Service Star',
     imagen: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=500',
   },
   {
